@@ -9,6 +9,7 @@ Simple and dirty role to install zabbix agent 3 on windows server
 
 Role logic:
 * Copy msi file from file/msi to c:\windows\temp
+* Install zabbix agent from msi but check if agent already installed
 * Place config file from template
 * Remove C:\zabbixdata folder
 * Copy files/externalscripts and files/userparameters to C:\zabbixdata
