@@ -1,0 +1,58 @@
+---
+# tasks file for mightydok-winzabbixagent
+
+- name: Copy files/* to C:\Windows\Temp
+  win_copy:
+    src: files/msi/
+    dest: C:\Windows\Temp\
+
+- name: Install zabbix agent from msi and wait installation finish
+  win_msi:
+    path: C:\Windows\Temp\zabbix_agent-3.2.3_x64.msi
+    wait: true
+    creates: C:\Program Files\Zabbix Agent\zabbix_agentd.exe
+
+- name: Remove C:\zabbixdata\ folder
+  win_file:
+    path: C:\zabbixdata\
+    state: absent
+  changed_when: False
+
+- name: Create directory for Zabbix userparameters
+  win_file:
+    path: C:\zabbixdata\userparameters\
+    state: directory
+  changed_when: False
+
+- name: Copy files/userparameters/ to C:\zabbixdata\userparameters\
+  win_copy:
+    src: files/userparameters/
+    dest: C:\zabbixdata\userparameters\
+
+- name: Create directory for Zabbix externalscripts
+  win_file:
+    path: C:\zabbixdata\externalscripts\
+    state: directory
+  changed_when: False
+
+- name: Copy files/externalscripts/ to C:\zabbixdata\externalscripts\
+  win_copy:
+    src: files/externalscripts/
+    dest: C:\zabbixdata\externalscripts\
+
+- name: Create template config file from template
+  win_template:
+    src: templates/zabbix_agentd.conf.j2
+    dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
+
+- name: Restart Zabbix Agent service
+  win_service:
+    name: Zabbix Agent
+    state: restarted
+  changed_when: False
+
+- name: Set Zabbix Agent service startup mode to auto and ensure it is started
+  win_service:
+    name: Zabbix Agent
+    start_mode: auto
+    state: started

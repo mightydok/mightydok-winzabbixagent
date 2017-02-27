@@ -1,0 +1,7 @@
+---
+# defaults file for mightydok-winzabbixagent
+
+winzabbixagent_zabbix_server: 127.0.0.1
+winzabbixagent_listenport: 10050
+winzabbixagent_listen_ip: 0.0.0.0
+winzabbixagent_zabbix_server_active: 127.0.0.1
