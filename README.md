@@ -1,7 +1,19 @@
 Role Name
 =========
 
-Simple and dirty role to install zabbix agent 3 on windows server
+Name: ***mightydok.winzabbixagent***   
+Simple and dirty role to install zabbix agent 3 on windows server   
+
+* files/externalscripts - folder for custom monitoring script   
+* files/userparameters - folder for custom conf files to include in zabbix agent configuration   
+
+Role logic:
+* Copy msi file from file/msi to c:\windows\temp
+* Place config file from template
+* Remove C:\zabbixdata folder
+* Copy files/externalscripts and files/userparameters to C:\zabbixdata
+* Restart zabbix agent
+* Ensure zabbix agent started and make autostart mode on
 
 Requirements
 ------------
